@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Canvas</title>
+    </head>
+    <body>
+        <!-- must define width and height, otherwise will not display -->
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+        <script>
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+
+            // ctx.fillStyle = 'red';
+            ctx.fillRect(10, 10, 50, 50);
+            ctx.clearRect(20, 20, 10, 10);
+            ctx.strokeRect(10, 70, 50, 50);
+
+            // rect
+            function drawPath() {
+                var canvas = document.getElementById('canvas');
+                var ctx = canvas.getContext('2d');
+
+                // 1 begin Path
+                // 2 move to
+                // 3 line to
+                // 4 close path
+                // 5 stroke
+                ctx.beginPath();
+                ctx.moveTo(30, 130);
+                ctx.lineTo(130, 130);
+                ctx.lineTo(130, 230);
+                ctx.closePath();
+                // ctx.stroke();
+                ctx.fill();
+            }
+
+            drawPath();
+
+            // arc
+            function drawArc() {
+                // arc(x, y, r, startAngle, endAngle, anticlockwise)
+                // radians = (Math.PI/180)*degrees
+                // arcTo(x1, y1, x2, y2, radius)
+                var canvas = document.getElementById('canvas');
+                var ctx = canvas.getContext('2d');
+
+                ctx.beginPath();
+                ctx.arc(40, 280, 30, 0, Math.PI * 2, false);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(80, 280, 30, 0, -Math.PI / 2, true);
+                ctx.closePath();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(40, 350, 30, -Math.PI / 2, Math.PI / 2, false);
+                ctx.closePath();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(120, 350, 30, 0, Math.PI, false);
+                ctx.closePath();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(40, 400);
+                ctx.arcTo(200, 400, 200, 600, 100);
+                ctx.lineTo(200, 600);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.rect(40, 400, 10, 10);
+                ctx.rect(200, 400, 10, 10);
+                ctx.rect(200, 600, 10, 10);
+                ctx.fill();
+            }
+
+            drawArc();
+        </script>
+    </body>
+</html>

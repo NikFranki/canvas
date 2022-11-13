@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Clock</title>
+        <style>
+            body {
+                padding: 0;
+                margin: 0;
+                background-color: #000;
+            }
+
+            canvas {
+                display: block;
+                margin: 500px auto;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="clock" width="300" height="300"></canvas>
+        <script>
+            init();
+
+            function init() {
+                const canvas = document.getElementById('clock');
+                const ctx = canvas.getContext('2d');
+                draw(ctx);
+            }
+
+            function draw(ctx) {
+                requestAnimationFrame(function step() {
+                    drawDial(ctx);
+                    drawAllHands(ctx);
+                    requestAnimationFrame(step);
+                });
+            }
+
+            function drawAllHands(ctx) {
+                let time = new Date();
+
+                let s = time.getSeconds();
+                let m = time.getMinutes();
+                let h = time.getHours();
+
+                let pi = Math.PI;
+                let secondAngle = (pi / 180) * 6 * s;
+                let minuteAngle = (pi / 180) * 6 * m + secondAngle / 60;
+                let hourAngle = (pi / 180) * 30 * h + minuteAngle / 12;
+
+                drawHand(hourAngle, 60, 6, 'red', ctx);
+                drawHand(minuteAngle, 106, 4, 'green', ctx);
+                drawHand(secondAngle, 129, 2, 'blue', ctx);
+            }
+
+            function drawHand(angle, len, width, color, ctx) {
+                ctx.save();
+                ctx.translate(150, 150);
+                ctx.rotate(-Math.PI / 2 + angle);
+                ctx.beginPath();
+                ctx.moveTo(-4, 0);
+                ctx.lineTo(len, 0);
+                ctx.lineWidth = width;
+                ctx.strokeStyle = color;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+                ctx.closePath();
+                ctx.restore();
+            }
+
+            function drawDial(ctx) {
+                let pi = Math.PI;
+
+                ctx.clearRect(0, 0, 300, 300);
+                ctx.save();
+
+                ctx.translate(150, 150);
+                ctx.beginPath();
+                ctx.arc(0, 0, 148, 0, 2 * pi);
+                ctx.stroke();
+                ctx.closePath();
+
+                for (let i = 0; i < 60; i++) {
+                    ctx.save();
+                    ctx.rotate(-pi / 2 + (i * pi) / 30);
+                    ctx.beginPath();
+                    ctx.moveTo(110, 0);
+                    ctx.lineTo(140, 0);
+                    ctx.lineWidth = i % 5 ? 2 : 4;
+                    ctx.strokeStyle = i % 5 ? 'blue' : 'red';
+                    ctx.stroke();
+                    ctx.closePath();
+                    ctx.restore();
+                }
+
+                ctx.restore();
+            }
+        </script>
+    </body>
+</html>
